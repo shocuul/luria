@@ -52,7 +52,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','f
     }
   })
 
-  .state('tab.chats', {
+  .state('tab.disorder-detail',{
+    url :'/disorder/:disorderId',
+    views:{
+      'tab-disorder':{
+        templateUrl : 'templates/disorder-detail.html',
+        controller : 'DisorderDetailCtrl'
+      }
+    }
+  })
+
+  .state('tab.criteria', {
       url: '/criteria',
       views: {
         'tab-criteria': {

@@ -1,4 +1,4 @@
-<ion-view view-title="Criterios">
+<ion-view view-title="Trastornos">
   <ion-nav-buttons side="right">
       <button class="button button-clear button-primary" ng-click="modal.show()">
         Agregar
@@ -19,7 +19,7 @@
                 </button>
               </div>
     <ion-list can-swipe="listCanSwipe">
-      <ion-item collection-repeat="disorder in disorders | filter: data.searchQuery" class="item-remove-animate">
+      <ion-item collection-repeat="disorder in disorders | filter: data.searchQuery" class="item-remove-animate" href="#/tab/disorder/{{disorder.$id}}">
           {{disorder.name}}
           <ion-option-button class="button-stable"
                        ng-click="edit(item)">

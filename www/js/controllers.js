@@ -33,6 +33,19 @@ angular.module('starter.controllers', [])
 
 })
 
+.controller('DisorderDetailCtrl', function($scope,$stateParams,Disorder,Criteria,$ionicModal){
+	$scope.disorder = Disorder.get($stateParams.disorderId);
+	$scope.criterion = Criteria.all();
+	$ionicModal.fromTemplateUrl('templates/list-criteria.html',{
+		scope : $scope
+	}).then(function(modal){
+		$scope.modal = modal;
+	});
+	$scope.createRelation = function(criteriaId){
+		console.log("As hecho click en " + criteriaId);
+	}
+})
+
 .controller('CriteriaCtrl', function($scope,Criteria,$ionicModal) {
   $scope.criterion = Criteria.all();
 	$scope.listCanSwipe = true
