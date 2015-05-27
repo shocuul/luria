@@ -18,6 +18,7 @@
                   Cancelar
                 </button>
               </div>
+              <h5>Hola {{loaded}}</h5>
     <ion-list can-swipe="listCanSwipe">
       <ion-item collection-repeat="disorder in disorders | filter: data.searchQuery" class="item-remove-animate" href="#/tab/disorder/{{disorder.$id}}">
           {{disorder.name}}

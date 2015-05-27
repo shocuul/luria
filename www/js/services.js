@@ -1,12 +1,22 @@
 angular.module('starter.services', ['firebase'])
 
 .factory('Disorder', function($firebaseArray){
+  var loaded = false;
   var ref = new Firebase(firebaseUrl);
   var disorders = $firebaseArray(ref.child('disorders'));
+  disorders.$loaded().then(function(x){
+    loaded = true;
+    console.log("cargado");
+  }).catch(function(error){
+    console.log("Error:",error);
+  })
 
   return {
     all : function(){
       return disorders;
+    },
+    state : function(){
+      return loaded;
     },
     delete : function(disorderId){
       var disorderToDelete = disorders.$getRecord(disorderId);
@@ -23,16 +33,32 @@ angular.module('starter.services', ['firebase'])
       disorders.$add({name: data.name}).then(function(data){
         console.log("disorder Addes");
       })
+    },
+    createRelation : function(disorderId,criteriaId){
+      var criterion = ref.child('disorders/'+disorderId+'/criterion');
+      criterion.child(criteriaId).set(true);
+      var disorders = ref.child('criterion/'+criteriaId+'/disorders');
+      disorders.child(disorderId).set(true);
     }
+
   }
 })
 
 .factory('Criteria', function($firebaseArray){
+  var loaded = false;
   var ref = new Firebase(firebaseUrl);
   var criterion = $firebaseArray(ref.child("criterion"));
+  criterion.$loaded().then(function(x){
+    loaded = true;
+  }).catch(function(error){
+    console.log("Error:",error);
+  })
   return {
     all : function(){
       return criterion;
+    },
+    state : function(){
+      return loaded;
     },
     delete : function(criteriaId){
       var criteriaToDelete = criterion.$getRecord(criteriaId);

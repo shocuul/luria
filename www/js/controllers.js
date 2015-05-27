@@ -4,12 +4,16 @@ angular.module('starter.controllers', [])
 
 	$scope.listCanSwipe = true;
 	$scope.disorders = Disorder.all();
-
+	$scope.loaded = Disorder.state();
 	$ionicModal.fromTemplateUrl('templates/new-disorder.html',{
 		scope : $scope
 	}).then(function(modal){
 		$scope.modal = modal;
 	});
+
+	$timeout(function(){
+		$scope.loaded = Disorder.state();
+	},1000);
 
 	$scope.createDisorder = function(data){
 		Disorder.create(data);
@@ -36,13 +40,15 @@ angular.module('starter.controllers', [])
 .controller('DisorderDetailCtrl', function($scope,$stateParams,Disorder,Criteria,$ionicModal){
 	$scope.disorder = Disorder.get($stateParams.disorderId);
 	$scope.criterion = Criteria.all();
+	$scope.loaded = Disorder.state();
 	$ionicModal.fromTemplateUrl('templates/list-criteria.html',{
 		scope : $scope
 	}).then(function(modal){
 		$scope.modal = modal;
 	});
 	$scope.createRelation = function(criteriaId){
-		console.log("As hecho click en " + criteriaId);
+		Disorder.createRelation($stateParams.disorderId,criteriaId);
+		$scope.modal.hide()
 	}
 })
 
