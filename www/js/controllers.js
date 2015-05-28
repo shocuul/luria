@@ -1,19 +1,24 @@
 angular.module('starter.controllers', [])
 
-.controller('DisorderCtrl', function($scope, Disorder, $timeout, $ionicModal,$ionicListDelegate,$ionicScrollDelegate) {
+.controller('DisorderCtrl', function($scope, Disorder, $ionicLoading, $ionicModal,$ionicListDelegate,$ionicScrollDelegate) {
 
 	$scope.listCanSwipe = true;
 	$scope.disorders = Disorder.all();
+	$ionicLoading.show({
+      template: 'Cargando...'
+    });
+	$scope.disorders.$loaded().then(function(x){
+
+		$ionicLoading.hide();
+  }).catch(function(error){
+    console.log("Error:",error);
+  })
 	$scope.loaded = Disorder.state();
 	$ionicModal.fromTemplateUrl('templates/new-disorder.html',{
 		scope : $scope
 	}).then(function(modal){
 		$scope.modal = modal;
 	});
-
-	$timeout(function(){
-		$scope.loaded = Disorder.state();
-	},1000);
 
 	$scope.createDisorder = function(data){
 		Disorder.create(data);
@@ -52,7 +57,7 @@ angular.module('starter.controllers', [])
 	}
 })
 
-.controller('CriteriaCtrl', function($scope,Criteria,$ionicModal) {
+.controller('CriteriaCtrl', function($scope,Criteria,$ionicModal,$ionicLoading) {
   $scope.criterion = Criteria.all();
 	$scope.listCanSwipe = true
   $ionicModal.fromTemplateUrl('templates/new-criteria.html',{
@@ -60,7 +65,12 @@ angular.module('starter.controllers', [])
 	}).then(function(modal){
 		$scope.modal = modal;
 	});
-
+	$ionicLoading.show({
+      template: 'Cargando...'
+    });
+	$scope.criterion.$loaded().then(function(x){
+		$ionicLoading.hide();
+	})
 	$scope.deleteCriteria = function(criteriaId){
 		Criteria.delete(criteriaId);
 		$ionicListDelegate.closeOptionButtons();

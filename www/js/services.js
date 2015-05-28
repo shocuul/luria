@@ -4,12 +4,7 @@ angular.module('starter.services', ['firebase'])
   var loaded = false;
   var ref = new Firebase(firebaseUrl);
   var disorders = $firebaseArray(ref.child('disorders'));
-  disorders.$loaded().then(function(x){
-    loaded = true;
-    console.log("cargado");
-  }).catch(function(error){
-    console.log("Error:",error);
-  })
+  
 
   return {
     all : function(){
